@@ -41,20 +41,21 @@ def getDischarge(flowId, startDate, endDate, stat):
     statFlow = NWMdf.groupby('feature_id')['streamflow'].max()
     return statFlow
 
-
-# startDate = input("start date and time in UTC as <2019-05-24 05:00>")
-# endDate = input("end date and time in UTC as <2019-06-09 04:59>")
-# hydroTpath = r'.../hydrotable.csv' 
-# outPath = r'<flowfilepath>_cms.csv'
-
+##Define input data
+##Input data template
+#Time and date in UTC !
+startDate = "2019-05-24 05:00"
+endDate = "2019-06-09 04:59"
+hydroTpath = r'hydrotable.csv' 
+outPath = r'<flowfilename>_cms.csv'
 
 ## import hydrotable csv file and isolate "feature_id" column, which refers to NWM flowline IDs
 df = pd.read_csv(hydroTpath, usecols=['feature_id'])
 
-##function to isolate unique feature_id (NWM flowline ID) values
+##isolate unique feature_id (NWM flowline ID) values
 flowId = df.drop_duplicates()
 
-#call getDischarge
+#call getDischarge, returns dataframe
 statFlow = getDischarge(flowId, startDate, endDate, 'max')
 
 #rename column from "streamflow" to "discharge" for proper flowfile formatting
